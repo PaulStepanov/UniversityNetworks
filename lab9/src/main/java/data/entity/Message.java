@@ -55,4 +55,22 @@ public class Message {
         result = 31 * result + (isMarkedForDelete() ? 1 : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("Headers \n");
+        this.headers.forEach(s -> {
+            result.append(s).append("\n");
+        });
+        result.append("Content \n");
+        result.append(content).append("\n");
+        if (isMarkedForDelete){
+            result.append("is marked for delete \n");
+        } else {
+            result.append("not marked for delete \n");
+        }
+
+        return result.toString();
+    }
 }

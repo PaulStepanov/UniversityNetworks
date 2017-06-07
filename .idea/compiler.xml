@@ -22,10 +22,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="NW" />
+        <module name="lab8" />
+        <module name="lab9" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="lab8" target="1.5" />
+      <module name="lab9" target="1.8" />
       <module name="NW" target="1.5" />
     </bytecodeTargetLevel>
   </component>

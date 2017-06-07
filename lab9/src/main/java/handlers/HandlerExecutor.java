@@ -1,17 +1,19 @@
 package handlers;
 
 import data.entity.User;
+import data.entity.UserDI;
 import exeptions.HandlersConflictExeption;
 
 import java.util.ArrayList;
 
 public class HandlerExecutor {
     private ArrayList<Handler> handlers = new ArrayList<>();
-    private User user;
+    private UserDI userDI;
 
-    public HandlerExecutor(User user) {
-        this.user = user;
-        handlers.add(new UserHandler(user));
+    public HandlerExecutor(UserDI userDI) {
+        this.userDI = userDI;
+        handlers.add(new UserHandler(userDI));
+        handlers.add(new PassHandler(userDI));
     }
 
     public String execute(String input){

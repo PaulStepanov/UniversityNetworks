@@ -1,21 +1,27 @@
 package handlers;
 
+import data.UserDB;
 import data.entity.User;
+import data.entity.UserDI;
 
-public class UserHandler implements Handler {
-    private User user;
+public class UserHandler extends Handler {
+    private UserDI userDI;
+    private final static String PATTERN = "^USER?.+";
 
-    public UserHandler(User user) {
-        this.user = user;
-    }
-
-    @Override
-    public boolean isThisHandlerSatisfy(String string) {
-        return false;
+    public UserHandler(UserDI userDI) {
+        super(PATTERN);
+        this.userDI = userDI;
     }
 
     @Override
     public String handle(String input) {
-        return null;
+        String userData = input.substring(input.indexOf(" ") + 1, input.length());
+        String username = userData.trim();
+        boolean isUserExists = UserDB.isUserExistByName(userData);
+        if (isUserExists){
+            userDI.setUser(new User(username,null));
+            return "User accepted";
+        }
+        return "User not accepted, bad user name";
     }
 }
