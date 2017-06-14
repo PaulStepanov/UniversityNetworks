@@ -20,8 +20,8 @@ public class UserHandler extends Handler {
         boolean isUserExists = UserDB.isUserExistByName(userData);
         if (isUserExists){
             userDI.setUser(new User(username,null));
-            return "User accepted";
+            return "+OK User accepted";
         }
-        return "User not accepted, bad user name";
+        return "-ERR User not accepted, bad user name";
     }
 }

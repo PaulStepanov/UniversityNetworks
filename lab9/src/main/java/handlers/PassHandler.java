@@ -20,7 +20,7 @@ public class PassHandler extends Handler {
     public String handle(String input) {
         //if user didn't entered username
         if (userDI.getUser()==null || userDI.getUser().getUserName() == null)
-            return "Enter user name first";
+            return "-ERR Enter user name first";
 
         String userData = input.substring(input.indexOf(" ") + 1, input.length());
         String userPassword = userData.trim();
@@ -30,9 +30,9 @@ public class PassHandler extends Handler {
         if (userFromDB!=null){
             userDI.setUser(userFromDB);
             userDI.setLoggined(true);
-            return "Password accepted";
+            return "+OK Password accepted";
         }
 
-        return "Wrong password";
+        return "-ERR Wrong password";
     }
 }

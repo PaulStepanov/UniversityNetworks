@@ -14,6 +14,10 @@ public class HandlerExecutor {
         this.userDI = userDI;
         handlers.add(new UserHandler(userDI));
         handlers.add(new PassHandler(userDI));
+        handlers.add(new ListHandler(userDI));
+        handlers.add(new RetrHandler(userDI));
+        handlers.add(new DeleHadler(userDI));
+        handlers.add(new StatHandler(userDI));
     }
 
     public String execute(String input){
