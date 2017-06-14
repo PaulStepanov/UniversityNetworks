@@ -1,9 +1,7 @@
 package handlers;
 
 import data.UserDB;
-import data.entity.Message;
-import data.entity.User;
-import data.entity.UserDI;
+import data.entity.*;
 import data.painters.Painter;
 
 /**
@@ -19,15 +17,21 @@ public class ListHandler extends Handler {
     }
 
     @Override
-    public String handle(String input) {
+    public ExecuteResult handle(String input) {
+        ExecuteResult executeResult = new ExecuteResult();
+
         if (!userDI.isLoggined()) {
-            return "You are not logged";
+            executeResult.setExecuteStatus(ExecuteStatus.ERR);
+            executeResult.setResultMessage("You are not logged");
+            return executeResult;
         }
 
         String userData = input.substring(input.indexOf("LIST") + 4, input.length());
         if(userData.trim().equals("")){
             //if no arguments
-            return Painter.stringifyMessages(UserDB.getUserMessages(userDI.getUser()));
+            executeResult.setExecuteStatus(ExecuteStatus.OK);
+            executeResult.setResultMessage(Painter.stringifyMessages(UserDB.getUserMessages(userDI.getUser())));
+            return executeResult;
         } else {
             //if message id specified
             Integer messageID;
@@ -35,15 +39,20 @@ public class ListHandler extends Handler {
                 messageID= Integer.valueOf(userData.trim());
             }
             catch (NumberFormatException e){
-                return "-ERR Bad message id";
+                executeResult.setExecuteStatus(ExecuteStatus.ERR);
+                executeResult.setResultMessage("Bad message id");
+                return executeResult;
             }
             try{
                 Message message = UserDB.getUserMessages(userDI.getUser()).get(messageID);
                 StringBuilder res = new StringBuilder();
-                res.append("+OK ").append(message.toString());
-                return res.toString();
+                executeResult.setExecuteStatus(ExecuteStatus.OK);
+                executeResult.setResultMessage(message.toString());
+                return executeResult;
             } catch (IndexOutOfBoundsException e){
-                return "-ERR Bad message id";
+                executeResult.setExecuteStatus(ExecuteStatus.ERR);
+                executeResult.setResultMessage("Bad message id");
+                return executeResult;
             }
 
         }

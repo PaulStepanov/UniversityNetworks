@@ -1,10 +1,11 @@
 package handlers;
 
-import data.entity.User;
+import data.entity.ExecuteResult;
 import data.entity.UserDI;
 import exeptions.HandlersConflictExeption;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HandlerExecutor {
     private ArrayList<Handler> handlers = new ArrayList<>();
@@ -18,19 +19,24 @@ public class HandlerExecutor {
         handlers.add(new RetrHandler(userDI));
         handlers.add(new DeleHadler(userDI));
         handlers.add(new StatHandler(userDI));
+        handlers.add(new TopHandler(userDI));
+        handlers.add(new QuitHandler(userDI));
     }
 
-    public String execute(String input){
-        final StringBuilder result = new StringBuilder();
-        handlers.forEach(handler -> {
-            if (handler.isThisHandlerSatisfy(input)){
+    public ExecuteResult execute(String input) {
+        ExecuteResult executeResult = null;
+        AtomicBoolean isHandled = new AtomicBoolean(false);
+        for (Handler handler : handlers) {
+            if (handler.isThisHandlerSatisfy(input)) {
                 //throw exeption if one already handle
-                if(result.length()!=0){
+                if (isHandled.get()) {
                     throw new HandlersConflictExeption();
                 }
-                result.append(handler.handle(input));
+                isHandled.set(true);
+                executeResult = handler.handle(input);
+
             }
-        });
-        return result.toString();
+        }
+        return executeResult;
     }
 }

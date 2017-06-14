@@ -1,9 +1,7 @@
 package handlers;
 
 import data.UserDB;
-import data.entity.MailBoxStat;
-import data.entity.Message;
-import data.entity.UserDI;
+import data.entity.*;
 
 public class StatHandler extends Handler {
     private final static String PATTERN = "^STAT?.+";
@@ -15,21 +13,26 @@ public class StatHandler extends Handler {
     }
 
     @Override
-    public String handle(String input) {
+    public ExecuteResult handle(String input) {
+        ExecuteResult executeResult = new ExecuteResult();
+
         if (!userDI.isLoggined()) {
-            return "-ERR You are not logged";
+            executeResult.setExecuteStatus(ExecuteStatus.ERR);
+            executeResult.setResultMessage("You are not logged");
+            return executeResult;
         }
 
         MailBoxStat mailBoxStat = UserDB.getMailBoxStat(userDI.getUser());
         StringBuilder resultSB = new StringBuilder();
         resultSB
-                .append("+OK ")
                 .append(mailBoxStat.getMessagesCount())
                 .append(" messages ")
                 .append(mailBoxStat.getSize())
                 .append(" Octets");
 
-        return resultSB.toString();
+        executeResult.setExecuteStatus(ExecuteStatus.OK);
+        executeResult.setResultMessage(resultSB.toString());
+        return executeResult;
 
     }
 }

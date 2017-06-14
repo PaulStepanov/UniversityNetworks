@@ -1,6 +1,8 @@
 package handlers;
 
 import data.UserDB;
+import data.entity.ExecuteResult;
+import data.entity.ExecuteStatus;
 import data.entity.UserDI;
 
 public class DeleHadler extends Handler {
@@ -13,9 +15,13 @@ public class DeleHadler extends Handler {
     }
 
     @Override
-    public String handle(String input) {
+    public ExecuteResult handle(String input) {
+        ExecuteResult executeResult = new ExecuteResult();
+
         if (!userDI.isLoggined()) {
-            return "-ERR You are not logged";
+            executeResult.setExecuteStatus(ExecuteStatus.ERR);
+            executeResult.setResultMessage("You are not logged");
+            return executeResult;
         }
 
         String userData = input.substring(input.indexOf("DELE") + 4, input.length());
@@ -24,12 +30,18 @@ public class DeleHadler extends Handler {
         try {
             messageID = Integer.valueOf(userData.trim());
         } catch (NumberFormatException e) {
-            return "-ERR Bad message id";
+            executeResult.setExecuteStatus(ExecuteStatus.ERR);
+            executeResult.setResultMessage("Bad message id");
+            return executeResult;
         }
         if (UserDB.deleteUserMessage(userDI.getUser(), messageID)) {
-            return "+OK message " + messageID + " has been deleted";
+            executeResult.setExecuteStatus(ExecuteStatus.OK);
+            executeResult.setResultMessage("message " + messageID + " has been marked for delete");
+            return executeResult;
         } else {
-            return "-ERR wrong index";
+            executeResult.setExecuteStatus(ExecuteStatus.ERR);
+            executeResult.setResultMessage("wrong index");
+            return executeResult;
         }
     }
 }

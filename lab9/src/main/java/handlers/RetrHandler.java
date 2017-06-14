@@ -1,6 +1,8 @@
 package handlers;
 
 import data.UserDB;
+import data.entity.ExecuteResult;
+import data.entity.ExecuteStatus;
 import data.entity.Message;
 import data.entity.UserDI;
 
@@ -14,9 +16,13 @@ public class RetrHandler extends Handler {
     }
 
     @Override
-    public String handle(String input) {
+    public ExecuteResult handle(String input) {
+        ExecuteResult executeResult = new ExecuteResult();
+
         if (!userDI.isLoggined()) {
-            return "-ERR You are not logged";
+            executeResult.setExecuteStatus(ExecuteStatus.ERR);
+            executeResult.setResultMessage("You are not logged");
+            return executeResult;
         }
 
         String userData = input.substring(input.indexOf("RETR") + 4, input.length());
@@ -25,15 +31,19 @@ public class RetrHandler extends Handler {
         try {
             messageID = Integer.valueOf(userData.trim());
         } catch (NumberFormatException e) {
-            return "-ERR Bad message id";
+            executeResult.setExecuteStatus(ExecuteStatus.ERR);
+            executeResult.setResultMessage("Bad message id");
+            return executeResult;
         }
         try {
             Message message = UserDB.getUserMessages(userDI.getUser()).get(messageID);
-            StringBuilder res = new StringBuilder();
-            res.append("+OK ").append(message.toString());
-            return res.toString();
+            executeResult.setExecuteStatus(ExecuteStatus.OK);
+            executeResult.setResultMessage(message.toString());
+            return executeResult;
         } catch (IndexOutOfBoundsException e) {
-            return "-ERR Bad message id";
+            executeResult.setExecuteStatus(ExecuteStatus.ERR);
+            executeResult.setResultMessage("Bad message id");
+            return executeResult;
         }
 
 

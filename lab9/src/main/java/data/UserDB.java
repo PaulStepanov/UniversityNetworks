@@ -75,7 +75,7 @@ public class UserDB {
 
     public static boolean deleteUserMessage(User user, int messageID) {
         try {
-            instance.userDataHashMap.get(user).getMessages().remove(messageID);
+            instance.userDataHashMap.get(user).getMessages().get(messageID).setMarkedForDelete(true);
             return true;
         } catch (IndexOutOfBoundsException e) {
             return false;

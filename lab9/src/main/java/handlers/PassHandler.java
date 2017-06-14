@@ -1,6 +1,8 @@
 package handlers;
 
 import data.UserDB;
+import data.entity.ExecuteResult;
+import data.entity.ExecuteStatus;
 import data.entity.User;
 import data.entity.UserDI;
 
@@ -17,10 +19,15 @@ public class PassHandler extends Handler {
     }
 
     @Override
-    public String handle(String input) {
+    public ExecuteResult handle(String input) {
+        ExecuteResult executeResult = new ExecuteResult();
+
         //if user didn't entered username
-        if (userDI.getUser()==null || userDI.getUser().getUserName() == null)
-            return "-ERR Enter user name first";
+        if (userDI.getUser()==null || userDI.getUser().getUserName() == null){
+            executeResult.setExecuteStatus(ExecuteStatus.ERR);
+            executeResult.setResultMessage("Enter user name first");
+            return executeResult;
+        }
 
         String userData = input.substring(input.indexOf(" ") + 1, input.length());
         String userPassword = userData.trim();
@@ -30,9 +37,13 @@ public class PassHandler extends Handler {
         if (userFromDB!=null){
             userDI.setUser(userFromDB);
             userDI.setLoggined(true);
-            return "+OK Password accepted";
+            executeResult.setExecuteStatus(ExecuteStatus.OK);
+            executeResult.setResultMessage("Password accepted");
+            return executeResult;
         }
 
-        return "-ERR Wrong password";
+        executeResult.setExecuteStatus(ExecuteStatus.ERR);
+        executeResult.setResultMessage("Wrong password");
+        return executeResult;
     }
 }

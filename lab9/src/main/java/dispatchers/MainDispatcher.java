@@ -1,5 +1,7 @@
 package dispatchers;
 
+import data.entity.ExecuteResult;
+import data.entity.ExecuteStatus;
 import data.entity.User;
 import data.entity.UserDI;
 import handlers.HandlerExecutor;
@@ -42,13 +44,29 @@ public class MainDispatcher implements Dispatcher {
                 StringBuilder userInput = new StringBuilder("");
                 userInput.append(line);
 
-                String executeResult = handlerExecutor.execute(userInput.toString());
+                ExecuteResult executeResult = handlerExecutor.execute(userInput.toString());
+                if(executeResult==null){
+                    out.write("Wrong comand i'm not kidding, enter smth valid \n");
+                    out.flush();
+                    continue;
+                }
 
 
-                out.write(executeResult);
+                //writing +OK or -ERR message
+                if (executeResult.getExecuteStatus().equals(ExecuteStatus.OK)){
+                    out.write(ExecuteStatus.OK.getValue()+" ");
+                } else {
+                    out.write(ExecuteStatus.ERR.getValue()+" ");
+                }
+
+                out.write(executeResult.getResultMessage());
+                out.write("\n");
                 out.write("\n");
                 out.flush();
-                System.out.println("writed " + executeResult);
+
+                if (executeResult.isExit()){
+                    break;
+                }
             }
 
 
