@@ -27,7 +27,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="lab8" target="1.5" />
+      <module name="lab8" target="1.8" />
       <module name="lab9" target="1.8" />
       <module name="NW" target="1.5" />
     </bytecodeTargetLevel>
