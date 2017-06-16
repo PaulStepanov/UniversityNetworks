@@ -11,4 +11,9 @@ public class Emty implements MapObject {
 
         return null;
     }
+
+    @Override
+    public String getDescription() {
+        return "Пустота";
+    }
 }

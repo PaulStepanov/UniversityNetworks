@@ -33,4 +33,19 @@ public class GameMap {
         }
     }
 
+    public MapObject getObjectByCordinates(int cordRow, int cordColumn){
+        for (int i =0;i<mapObjList.size();i++){
+            if (i == cordRow){
+                ArrayList<MapObject> row = mapObjList.get(i);
+                for(int j=0;j<row.size();j++) {
+                    if(j==cordColumn){
+                        return mapObjList.get(cordRow).get(cordColumn);
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+
 }

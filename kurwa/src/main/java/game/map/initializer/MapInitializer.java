@@ -1,5 +1,6 @@
 package game.map.initializer;
 
+import game.entity.Player;
 import game.map.GameMap;
 import game.map.objects.Emty;
 import game.map.objects.MapObject;
@@ -19,6 +20,14 @@ public class MapInitializer {
         return gameMap;
     }
 
+
+    //creates and spawn player
+    public Player spawnPlayer(String name){
+        Player player = new Player();
+        player.setName(name);
+        spawnPlayer(.)
+
+    }
 
     private static GameMap generateEmtyMapWithWalls() {
         //fill with empty

@@ -25,4 +25,9 @@ public class Wall implements MapObject {
 
         return actionResult;
     }
+
+    @Override
+    public String getDescription() {
+        return "Это степа";
+    }
 }

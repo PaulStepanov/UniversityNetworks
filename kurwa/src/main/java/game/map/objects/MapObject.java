@@ -7,4 +7,6 @@ import game.entity.PlayerState;
 
 public interface MapObject {
     public ActionResult engagePlayer(PlayerState playerState, Action action);
+
+    public String getDescription();
 }
