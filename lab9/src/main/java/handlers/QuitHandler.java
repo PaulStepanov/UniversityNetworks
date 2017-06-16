@@ -23,6 +23,8 @@ public class QuitHandler extends Handler {
         executeResult.setResultMessage("POP3 server signing off");
         executeResult.setExit(true);
 
+        UserDB.saveToFolders(userDI.getUser());
+
         return executeResult;
     }
 

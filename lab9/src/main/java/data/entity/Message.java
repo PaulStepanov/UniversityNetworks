@@ -1,8 +1,9 @@
 package data.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Message {
+public class Message implements Serializable{
     private ArrayList<String> headers = new ArrayList<>();
     private String content;
     private boolean isMarkedForDelete = false;

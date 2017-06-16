@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="javadoc">
+    <CLASSES />
+    <JAVADOC>
+      <root url="file://$PROJECT_DIR$/lab9/src/main/java/msgparser-1.15/docs/javadoc" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/lab9/src/main/java/msgparser-1.15/src/main/java" />
+      <root url="file://$PROJECT_DIR$/lab9/src/main/java/msgparser-1.15/src/test/java" />
+    </SOURCES>
+  </library>
+</component>

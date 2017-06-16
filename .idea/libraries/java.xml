@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="java">
+    <CLASSES />
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/lab9/lib/msgparser-1.15/src/main/java" />
+    </SOURCES>
+  </library>
+</component>

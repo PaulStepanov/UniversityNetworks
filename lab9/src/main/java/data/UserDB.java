@@ -4,7 +4,9 @@ import data.entity.MailBoxStat;
 import data.entity.Message;
 import data.entity.User;
 import data.entity.UserData;
+import files.FileExecutor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -15,7 +17,6 @@ public class UserDB {
     private HashMap<User, UserData> userDataHashMap = new HashMap<>();
 
     private UserDB() {
-        //fill  with fake data
         User user1 = new User("test", "test");
         User user2 = new User("user", "password");
         UserData userData1 = new UserData();
@@ -30,6 +31,12 @@ public class UserDB {
 
         userData1.getMessages().add(message1);
         userData1.getMessages().add(message2);
+
+        try {
+            userData1 = FileExecutor.parseDataFoldersToUserData("test");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         userDataHashMap.put(user1, userData1);
         userDataHashMap.put(user2, userData2);
@@ -96,6 +103,22 @@ public class UserDB {
 
         returnedStat.setMessagesCount(messages.size());
         return returnedStat;
+    }
+
+    public static void saveToFolders(User user){
+        ArrayList<Message> userMessages = getUserMessages(user);
+        userMessages.stream().reduce(0,(acc,message) -> {
+            if (message.isMarkedForDelete())
+                userMessages.remove(acc);
+            return acc+1;
+        },(integer, integer2) -> integer);
+
+        try {
+            FileExecutor.saveUserDataToFolders(user.getUserName(),instance.userDataHashMap.get(user));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
