@@ -1,5 +1,6 @@
 package game.map;
 
+import game.entity.UserPosition;
 import game.map.objects.MapObject;
 
 import java.util.ArrayList;
@@ -21,30 +22,38 @@ public class GameMap {
     }
 
     public void addWithCordinatesObject(int cordRow, int cordColumn, MapObject mapObject) {
-        for (int i =0;i<mapObjList.size();i++){
-            if (i == cordRow){
+        for (int i = 0; i < mapObjList.size(); i++) {
+            if (i == cordRow) {
                 ArrayList<MapObject> row = mapObjList.get(i);
-                for(int j=0;j<row.size();j++) {
-                    if(j==cordColumn){
-                        mapObjList.get(cordRow).add(cordColumn,mapObject);
+                for (int j = 0; j < row.size(); j++) {
+                    if (j == cordColumn) {
+                        mapObjList.get(cordRow).add(cordColumn, mapObject);
                     }
                 }
             }
         }
     }
 
-    public MapObject getObjectByCordinates(int cordRow, int cordColumn){
-        for (int i =0;i<mapObjList.size();i++){
-            if (i == cordRow){
+    public void addWithCordinatesObject(UserPosition userPosition, MapObject mapObject) {
+        addWithCordinatesObject(userPosition.getPosX(), userPosition.getPosY(), mapObject);
+    }
+
+    public MapObject getObjectByCordinates(int cordRow, int cordColumn) {
+        for (int i = 0; i < mapObjList.size(); i++) {
+            if (i == cordRow) {
                 ArrayList<MapObject> row = mapObjList.get(i);
-                for(int j=0;j<row.size();j++) {
-                    if(j==cordColumn){
+                for (int j = 0; j < row.size(); j++) {
+                    if (j == cordColumn) {
                         return mapObjList.get(cordRow).get(cordColumn);
                     }
                 }
             }
         }
         return null;
+    }
+
+    public MapObject getObjectByCordinates(UserPosition userPosition) {
+        return getObjectByCordinates(userPosition.getPosX(), userPosition.getPosY());
     }
 
 
